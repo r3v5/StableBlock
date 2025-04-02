@@ -1,0 +1,7 @@
+╰─ go run main.go                                                                                                                                                              ─╯
+2025/04/02 14:59:20 ✅ Connected to database.
+
+2025/04/02 14:59:20 /Users/ianmiller/stable-block-api/database/migrate.go:10 ERROR: multiple default values specified for column "height" of table "blocks" (SQLSTATE 42601)
+[0.560ms] [rows:0] CREATE TABLE "blocks" ("id" bigserial,"height" bigserial DEFAULT 0,"timestamp" timestamptz,"size" bigint NOT NULL,"parent_hash" text,"hash" text NOT NULL,"fee_recipient_address" varchar(42) NOT NULL,"block_reward" numeric(20,8) NOT NULL,PRIMARY KEY ("id"),CONSTRAINT "fk_blocks_fee_recipient" FOREIGN KEY ("fee_recipient_address") REFERENCES "accounts"("address"))
+2025/04/02 14:59:20 ❌ Migration failed:ERROR: multiple default values specified for column "height" of table "blocks" (SQLSTATE 42601)
+exit status 1
