@@ -7,8 +7,7 @@ import (
 )
 
 type Block struct {
-	ID           		uint              `gorm:"primaryKey" json:"id"`
-	Height       		int               `gorm:"uniqueIndex;autoIncrement;default:0" json:"height"`
+	Height       		int               `gorm:"primaryKey;autoIncrement;not null" json:"height"`
 	Timestamp    		time.Time         `gorm:"autoCreateTime" json:"timestamp"`
 	Size         		int               `gorm:"not null" json:"size"`
 	ParentHash   		string            `json:"parent_hash"`

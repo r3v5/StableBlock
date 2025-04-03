@@ -1,0 +1,4 @@
+DROP TABLE IF EXISTS transactions;
+DROP TABLE IF EXISTS stakes;
+DROP TABLE IF EXISTS blocks;
+DROP TABLE IF EXISTS accounts;
