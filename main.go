@@ -6,6 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/r3v5/stableblock-api/database"
+	"github.com/r3v5/stableblock-api/handlers"
+	"github.com/r3v5/stableblock-api/middleware"
 )
 
 func main() {
@@ -17,14 +19,16 @@ func main() {
 
     database.Connect()
     
-    r := gin.Default()
+    api := gin.Default()
 
-    // Basic route
-    r.GET("/", func(c *gin.Context) {
+    api.GET("/", func(c *gin.Context) {
         c.JSON(200, gin.H{
             "message": "Welcome to StableBlock 👋",
         })
     })
 
-    r.Run() // default: localhost:8080
+    api.POST("api/v1/register", handlers.HandlePostRegister)
+    api.POST("api/v1/login", handlers.HandlePostLogin)
+	api.GET("api/v1/account", middleware.JwtAuthMiddleware(), handlers.HandleGetAccount)
+    api.Run()
 }
