@@ -7,7 +7,6 @@ import (
 )
 
 func HandleGetAccount(c *gin.Context) {
-	// Extract the authenticated user's address from the context
 	addr, exists := c.Get("address")
 	if !exists {
 		c.JSON(401, gin.H{"error": "Unauthorized"})
@@ -20,14 +19,12 @@ func HandleGetAccount(c *gin.Context) {
 		return
 	}
 
-	// Look up the account in the DB
 	account := &models.Account{}
 	if err := database.DB.First(account, "address = ?", address).Error; err != nil {
 		c.JSON(404, gin.H{"error": "Account not found"})
 		return
 	}
 
-	// Return the account (without sensitive data like password hash)
 	c.JSON(200, gin.H{
 		"address":            account.Address,
 		"is_validator":       account.IsValidator,

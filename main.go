@@ -29,6 +29,8 @@ func main() {
 
     api.POST("api/v1/register", handlers.HandlePostRegister)
     api.POST("api/v1/login", handlers.HandlePostLogin)
+    api.POST("api/v1/refresh", handlers.HandlePostRefresh)
+    api.POST("api/v1/logout", middleware.JwtAuthMiddleware(), handlers.HandlerPostLogout)
 	api.GET("api/v1/account", middleware.JwtAuthMiddleware(), handlers.HandleGetAccount)
     api.Run()
 }

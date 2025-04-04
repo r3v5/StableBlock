@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/r3v5/stableblock-api/services"
+	"github.com/r3v5/stableblock-api/utils"
 )
 
 func JwtAuthMiddleware() gin.HandlerFunc {
@@ -22,11 +22,10 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
 
 		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-			// ✅ Validate signing method
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, fmt.Errorf("unexpected signing method")
 			}
-			return services.GetSecret(), nil
+			return utils.GetSecret(), nil
 		})
 
 		if err != nil || !token.Valid {
@@ -35,7 +34,6 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// ✅ Type check and access claims safely
 		claims, ok := token.Claims.(jwt.MapClaims)
 		if !ok || !token.Valid {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token claims"})
@@ -43,7 +41,6 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// ✅ Extract and check address from claims
 		address, ok := claims["address"].(string)
 		if !ok || address == "" {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid or missing address in token"})

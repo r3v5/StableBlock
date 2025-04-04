@@ -1,4 +1,4 @@
-package services
+package utils
 
 import (
 	"os"
@@ -25,7 +25,7 @@ func GenerateTokens(address string) (string, string, error) {
 
 	refreshToken, err := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"address": address,
-		"exp":     time.Now().Add(time.Minute * 3).Unix(),
+		"exp":     time.Now().Add(time.Minute * 5).Unix(),
 	}).SignedString(GetSecret())
 
 	if err != nil {
@@ -33,4 +33,14 @@ func GenerateTokens(address string) (string, string, error) {
 	}
 
 	return accessToken, refreshToken, nil
+}
+
+
+func GenerateAccessToken(address string) (string, error) {
+	accessToken, err := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"address": address,
+		"exp":     time.Now().Add(time.Minute * 1).Unix(),
+	}).SignedString(GetSecret())
+
+	return accessToken, err
 }
