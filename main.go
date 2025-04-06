@@ -31,6 +31,12 @@ func main() {
     api.POST("api/v1/login", handlers.HandlePostLogin)
     api.POST("api/v1/refresh", handlers.HandlePostRefresh)
     api.POST("api/v1/logout", middleware.JwtAuthMiddleware(), handlers.HandlerPostLogout)
-	api.GET("api/v1/account", middleware.JwtAuthMiddleware(), handlers.HandleGetAccount)
+	api.GET("api/v1/accounts", middleware.JwtAuthMiddleware(), handlers.HandleGetAccount)
+    api.POST("api/v1/transactions", middleware.JwtAuthMiddleware(), handlers.HandlePostTransaction)
+    api.GET("api/v1/transactions", handlers.HandleGetTransactions)
+    api.GET("api/v1/transactions/:hash", handlers.HandleGetTransaction)
+    api.GET("api/v1/blocks", handlers.HandleGetBlocks)
+    api.GET("api/v1/blocks/:height", handlers.HandleGetBlock)
+    api.GET("api/v1/sbtokens", middleware.JwtAuthMiddleware(), handlers.HandleGetSBTokens)
     api.Run()
 }

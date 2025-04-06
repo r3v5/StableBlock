@@ -27,9 +27,7 @@ func HandleGetAccount(c *gin.Context) {
 
 	c.JSON(200, gin.H{
 		"address":            account.Address,
-		"is_validator":       account.IsValidator,
-		"is_zero_address":    account.IsZeroAddress,
-		"is_deposit_address": account.IsDepositAddress,
+		"name":				  account.Name,	
 		"sb_balance":         account.SBBalance,
 		"tx_sent_count":      account.TxSentCount,
 	})

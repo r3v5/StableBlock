@@ -16,7 +16,4 @@ type Transaction struct {
 	ToAddress       string          `gorm:"type:char(42);not null" json:"to_address"`
 	ToAccount       Account         `gorm:"foreignKey:ToAddress;references:Address" json:"-"`
 	Value           decimal.Decimal `gorm:"type:numeric(20,8);not null" json:"value"`
-	TransactionFee  decimal.Decimal `gorm:"type:numeric(20,8);not null" json:"transaction_fee"`
-	GasPrice        decimal.Decimal `gorm:"type:numeric(20,8);not null" json:"gas_price"`
-	GasUsed         decimal.Decimal `gorm:"type:numeric(20,8);not null" json:"gas_used"`
 }

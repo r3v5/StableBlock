@@ -16,6 +16,7 @@ import (
 
 type RegisterInput struct {
 	Password string `json:"password" binding:"required,min=6"`
+	Name 	 string	`json:"name" binding:"required"`
 }
 
 type LoginInput struct {
@@ -29,8 +30,8 @@ type RefreshInput struct {
 
 
 func HandlePostRegister(c *gin.Context) {
-	inputPassword := &RegisterInput{}
-	inputError := c.ShouldBindJSON(inputPassword)
+	registerData := &RegisterInput{}
+	inputError := c.ShouldBindJSON(registerData)
 	if inputError != nil {
 		c.JSON(400, gin.H{"error": inputError.Error()})
 		return
@@ -42,7 +43,7 @@ func HandlePostRegister(c *gin.Context) {
 		return
 	}
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(inputPassword.Password), bcrypt.DefaultCost)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(registerData.Password), bcrypt.DefaultCost)
 	if err != nil {
 		c.JSON(400, gin.H{"error": "Could not hash password"})
 		return
@@ -50,10 +51,8 @@ func HandlePostRegister(c *gin.Context) {
 
 	account := &models.Account{
 		Address:        address,
+		Name:			registerData.Name,
 		PasswordHash:   string(hashedPassword),
-		IsValidator:    false,
-		IsZeroAddress:  false,
-		IsDepositAddress: false,
 		SBBalance:      decimal.NewFromFloat(10.0),
 		TxSentCount:    0,
 		RefreshToken: nil,
@@ -66,6 +65,7 @@ func HandlePostRegister(c *gin.Context) {
 
 	c.JSON(201, gin.H{
 		"address": address,
+		"name": registerData.Name,
 	})
 }
 
