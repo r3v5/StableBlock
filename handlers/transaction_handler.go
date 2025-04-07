@@ -14,7 +14,7 @@ import (
 )
 
 
-type CreateTransaction struct {
+type TransactionRequest struct {
 	ToAddress string          `json:"to_address" binding:"required"`
 	Value     decimal.Decimal `json:"value" binding:"required"` 
 }
@@ -32,7 +32,7 @@ func HandlePostTransaction(c *gin.Context) {
 		return
 	}
 
-	incomingTxData := &CreateTransaction{}
+	incomingTxData := &TransactionRequest{}
 	if err := c.ShouldBindJSON(incomingTxData); err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
@@ -62,14 +62,15 @@ func HandlePostTransaction(c *gin.Context) {
 		}
 
 		// Prepare block
-		block, err := utils.GetOrCreateBlockWithFreeSlot(tx, 3)
+		util := &utils.DefaultBlockchainUtil{DB: database.DB}
+		block, err := util.GetOrCreateBlockWithFreeSlot(tx, 3)
 		if err != nil {
 			c.JSON(400, gin.H{"error": "Unable to allocate block"})
 			return err
 		}
 
 		now := time.Now()
-		txHash := utils.GenerateTransactionHash(sender.Address, recipient.Address, incomingTxData.Value, now)
+		txHash := util.GenerateTransactionHash(sender.Address, recipient.Address, incomingTxData.Value, now)
 
 		transaction := models.Transaction{
 			TransactionHash: txHash,

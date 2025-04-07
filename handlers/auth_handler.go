@@ -14,30 +14,31 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type RegisterInput struct {
+type RegisterRequest struct {
 	Password string `json:"password" binding:"required,min=6"`
 	Name 	 string	`json:"name" binding:"required"`
 }
 
-type LoginInput struct {
+type LogineRequest struct {
 	Address  string `json:"address" binding:"required,len=42"`
 	Password string `json:"password" binding:"required"`
 }
 
-type RefreshInput struct {
+type RefreshRequest struct {
 	RefreshToken string `json:"refresh_token" binding:"required"`
 }
 
 
 func HandlePostRegister(c *gin.Context) {
-	registerData := &RegisterInput{}
+	registerData := &RegisterRequest{}
 	inputError := c.ShouldBindJSON(registerData)
+	util := &utils.DefaultBlockchainUtil{DB: database.DB}
 	if inputError != nil {
 		c.JSON(400, gin.H{"error": inputError.Error()})
 		return
 	}
 
-	address, err := utils.GenerateUniqueAddress()
+	address, err := util.GenerateUniqueAddress()
 	if err != nil {
 		c.JSON(400, gin.H{"error": "Could not generate address, try again"})
 		return
@@ -71,7 +72,7 @@ func HandlePostRegister(c *gin.Context) {
 
 
 func HandlePostLogin(c *gin.Context) {
-	loginData := &LoginInput{}
+	loginData := &LogineRequest{}
 	loginDataError := c.ShouldBindJSON(loginData)
 
 	if loginDataError != nil {
@@ -110,7 +111,7 @@ func HandlePostLogin(c *gin.Context) {
 
 
 func HandlePostRefresh(c *gin.Context) {
-	input := &RefreshInput{}
+	input := &RefreshRequest{}
 	if err := c.ShouldBindJSON(input); err != nil {
 		c.JSON(400, gin.H{"error": "Refresh token required"})
 		return
