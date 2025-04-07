@@ -1,17 +1,17 @@
-# Set default migration path and DB
+# Set default migration path
 MIGRATIONS_DIR=database/migrations
 
 # Run all migrations
 migrate-up:
-	@export $$(grep -v '^#' .env | xargs) && migrate -path $(MIGRATIONS_DIR) -database "$$DB_DSN" up
+	migrate -path $(MIGRATIONS_DIR) -database "$(DB_DSN)" up
 
 # Roll back last migration
 migrate-down:
-	@export $$(grep -v '^#' .env | xargs) && migrate -path $(MIGRATIONS_DIR) -database "$$DB_DSN" down 1
+	migrate -path $(MIGRATIONS_DIR) -database "$(DB_DSN)" down 1
 
 # Roll back all migrations
 migrate-reset:
-	@export $$(grep -v '^#' .env | xargs) && migrate -path $(MIGRATIONS_DIR) -database "$$DB_DSN" down
+	migrate -path $(MIGRATIONS_DIR) -database "$(DB_DSN)" down
 
 # Re-run migrations from scratch
 migrate-restart:
@@ -20,8 +20,8 @@ migrate-restart:
 
 # Show current migration version
 migrate-version:
-	@export $$(grep -v '^#' .env | xargs) && migrate -path $(MIGRATIONS_DIR) -database "$$DB_DSN" version
+	migrate -path $(MIGRATIONS_DIR) -database "$(DB_DSN)" version
 
 # Create a new migration: make migrate-new name=add_users_table
 migrate-new:
-	@export $$(grep -v '^#' .env | xargs) && migrate create -ext sql -dir $(MIGRATIONS_DIR) $(name)
+	migrate create -ext sql -dir $(MIGRATIONS_DIR) $(name)

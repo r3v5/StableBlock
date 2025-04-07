@@ -21,12 +21,11 @@ func main() {
     
     api := gin.Default()
 
-    api.GET("/", func(c *gin.Context) {
+    api.GET("api/v1/welcome", func(c *gin.Context) {
         c.JSON(200, gin.H{
             "message": "Welcome to StableBlock 👋",
         })
     })
-
     api.POST("api/v1/register", handlers.HandlePostRegister)
     api.POST("api/v1/login", handlers.HandlePostLogin)
     api.POST("api/v1/refresh", handlers.HandlePostRefresh)
