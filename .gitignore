@@ -1,3 +1,4 @@
 .env
 configmap.yml
 secret.yml
+.DS_Store
