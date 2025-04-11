@@ -175,7 +175,7 @@ service/stableblock-api created
                                                                                                              
 deployment.apps/stableblock-api created                                                                                                                   
    ``` 
-   15. Get all pods, services and deployments for given namespace Kubernetes cluster ✅
+   15. Get all pods, services, deployments and replicasets for given namespace Kubernetes cluster ✅
   ```
  kubectl get all -n stableblock                                                                                                                                              
 
