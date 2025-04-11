@@ -8,6 +8,10 @@
 </div>
 
 
+
+
+
+
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
@@ -20,12 +24,19 @@ StableBlock is REST API written in Go, deployed to local Kubernetes cluster that
 
 ## Deployment & Infrastructure
 •  **Docker Image based on golang:1.24.2-alpine3.21**
+
 •  **Local Kubernetes cluster**: k8s cluster that runs behind Docker Desktop
+
 •  **postgres service**: ClusterIP with 5432 port
+
 •  **stableblock-api service**: NodePort 30080
+
 •  **postgres deployment with 1 replica**
+
 •  **stableblock-api deployment with 10 replicas**
+
 •  **stableblock namespace**
+
 •  **Two Makefiles**: Makefile.k8s and Makefile.local
 
 ### Built With
