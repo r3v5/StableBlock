@@ -1,0 +1,4 @@
+1. created .env file for local development
+2. create configmap.yml and secret.yml in infra/k8s directory 
+3. build image: docker build -f infra/docker/Dockerfile -t stableblock-api:v1 .
+4. create services and deployments

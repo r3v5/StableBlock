@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"time"
 
 	"log"
 
@@ -56,7 +57,8 @@ func HandlePostRegister(c *gin.Context) {
 		PasswordHash:   string(hashedPassword),
 		SBBalance:      decimal.NewFromFloat(10.0),
 		TxSentCount:    0,
-		RefreshToken: nil,
+		RefreshToken:   nil,
+		DateCreated:    time.Now(),
 	}
 
 	if err := database.DB.Create(account).Error; err != nil {

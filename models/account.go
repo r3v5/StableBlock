@@ -1,6 +1,8 @@
 package models
 
 import (
+	"time"
+
 	"github.com/shopspring/decimal"
 )
 
@@ -11,4 +13,5 @@ type Account struct {
 	SBBalance       decimal.Decimal  `gorm:"type:numeric(20,8);default:0" json:"sb_balance"`
 	TxSentCount     int              `gorm:"default:0" json:"tx_sent_count"`
 	RefreshToken 	*string 		 `gorm:"type:text"`
+	DateCreated		time.Time 		 `gorm:"autoCreateTime" json:"date_created"`	
 }

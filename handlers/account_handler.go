@@ -30,5 +30,6 @@ func HandleGetAccount(c *gin.Context) {
 		"name":				  account.Name,	
 		"sb_balance":         account.SBBalance,
 		"tx_sent_count":      account.TxSentCount,
+		"date_created":		  account.DateCreated,	
 	})
 }
