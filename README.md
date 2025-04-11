@@ -175,7 +175,7 @@ service/stableblock-api created
                                                                                                              
 deployment.apps/stableblock-api created                                                                                                                   
    ``` 
-   15. Get all pods, services, deployments and replicasets for given namespace Kubernetes cluster ✅
+   15. Get all pods, services and deployments for given namespace Kubernetes cluster ✅
   ```
  kubectl get all -n stableblock                                                                                                                                              
 
@@ -229,7 +229,12 @@ curl --location 'http://localhost:30080/api/v1/welcome/'
 	"message":  "Welcome to StableBlock 👋"
 }                                                                                                                
    ``` 
-   
+   19. To launch project locally without k8s, just run this command ✅
+  ```
+ go run main.go                                                                                                                                                              
+  
+2025/04/11 18:38:38 ✅ Connected to database.                                                                                                              
+   ``` 
 ### Postman collection with documentation for API
 Published Postman collection: [API docs](https://documenter.getpostman.com/view/27242366/2sB2cYdLba)
 
