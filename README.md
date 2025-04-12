@@ -62,7 +62,7 @@ StableBlock is REST API written in Go, deployed to local Kubernetes cluster that
   ```sh
    cd StableBlock
    ```
-3. Create a .env file local development ✅
+3. Create a .env file in root directory for local development ✅
   ```
 	DB_HOST=localhost
 	DB_PORT=5432
