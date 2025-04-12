@@ -56,7 +56,7 @@ StableBlock is REST API written in Go, deployed to local Kubernetes cluster that
 
 1. Clone the repo ✅
   ```sh
-   https://github.com/r3v5/StableBlock.git
+   git clone https://github.com/r3v5/StableBlock.git
    ```
 2. Navigate to the project directory ✅
   ```sh
