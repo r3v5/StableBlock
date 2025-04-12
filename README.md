@@ -389,9 +389,7 @@ Output should be similar to this:
 
 ```
 {
-
-"message": "Welcome to StableBlock 👋"
-
+    "message": "Welcome to StableBlock 👋"
 }
 ```
 
