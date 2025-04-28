@@ -66,7 +66,30 @@ func (u *DefaultBlockchainUtil) GenerateBlockHash(height int, parentHash string,
 	return u.Keccak256Hash(data)
 }
 
-func (u *DefaultBlockchainUtil) GetOrCreateBlockWithFreeSlot(tx *gorm.DB, defaultMaxTx int) (*models.Block, error) {
+
+func (u *DefaultBlockchainUtil) CreateNewBlock(tx *gorm.DB, defaultMaxTx int) (*models.Block, error) {
+	var latestBlock models.Block
+	err := tx.Order("height DESC").First(&latestBlock).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	newBlock := models.Block{
+		ParentHash:      latestBlock.Hash,
+		MaxTransactions: defaultMaxTx,
+		Timestamp:       time.Now(),
+	}
+	newBlock.Hash = u.GenerateBlockHash(latestBlock.Height+1, newBlock.ParentHash, newBlock.Timestamp)
+
+	if err := tx.Create(&newBlock).Error; err != nil {
+		return nil, err
+	}
+
+	return &newBlock, nil
+}
+
+func (u *DefaultBlockchainUtil) GetBlockWithFreeSlot(tx *gorm.DB) (*models.Block, error) {
 	var blocks []models.Block
 	if err := tx.Order("height ASC").Find(&blocks).Error; err != nil {
 		return nil, err
@@ -85,22 +108,5 @@ func (u *DefaultBlockchainUtil) GetOrCreateBlockWithFreeSlot(tx *gorm.DB, defaul
 		}
 	}
 
-	var latestBlock models.Block
-	if err := tx.Order("height DESC").First(&latestBlock).Error; err != nil {
-		latestBlock.Height = -1
-		latestBlock.Hash = "0x0000000000000000000000000000000000000000000000000000000000000000"
-	}
-
-	newBlock := models.Block{
-		ParentHash:      latestBlock.Hash,
-		MaxTransactions: defaultMaxTx,
-		Timestamp:       time.Now(),
-	}
-	newBlock.Hash = u.GenerateBlockHash(latestBlock.Height+1, newBlock.ParentHash, newBlock.Timestamp)
-
-	if err := tx.Create(&newBlock).Error; err != nil {
-		return nil, err
-	}
-
-	return &newBlock, nil
+	return nil, nil
 }

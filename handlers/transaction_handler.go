@@ -63,10 +63,19 @@ func HandlePostTransaction(c *gin.Context) {
 
 		// Prepare block
 		util := &utils.DefaultBlockchainUtil{DB: database.DB}
-		block, err := util.GetOrCreateBlockWithFreeSlot(tx, 3)
+
+		block, err := util.GetBlockWithFreeSlot(tx)
 		if err != nil {
 			c.JSON(400, gin.H{"error": "Unable to allocate block"})
 			return err
+		}
+
+		if block == nil {
+			block, err = util.CreateNewBlock(tx, 3)
+			if err != nil {
+				c.JSON(400, gin.H{"error": "Unable to create new block"})
+				return err
+			}
 		}
 
 		now := time.Now()
